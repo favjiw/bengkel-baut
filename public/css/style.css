@@ -1,0 +1,38 @@
+#bannerimage{
+  width: 100%;
+  background-image: url(../images/bengkel.jpg);
+  height: 405px;
+  background-color: gray;
+  background-position: center;
+}
+body{
+  margin: 0px;
+}
+.topnav {
+    width: 100%;
+    background-color: red;
+  }
+  
+  .topnav ul {
+    text-align: left;
+  }
+  
+  .topnav ul li{
+    list-style: none;
+    display: inline-block;
+  }
+
+  .topnav ul li a{
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 2px;
+    font-weight: 600;
+    padding: 25px;
+  }
+  .topnav ul li a:hover{
+    background-color: darkred;
+  }
