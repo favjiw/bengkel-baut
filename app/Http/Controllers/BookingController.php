@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
+use App\Models\Category;
+use Illuminate\Container\Attributes\Log;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -11,7 +14,8 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('FormPage', ['categories' => $categories]);
     }
 
     /**
@@ -27,7 +31,18 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Log::info($request);
+        // dd($request->all());
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'type' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $validatedData = Booking::create($validatedData);
+
+        return redirect()->route('booking')->with('success', 'Booking created successfully.');
     }
 
     /**

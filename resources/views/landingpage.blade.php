@@ -8,7 +8,7 @@
 </head>
 <div class="topnav">
     <div class="items">
-        <div class="logo"><img src="https://kpssteel.com/storage/2022/10/perbedaan-baut-dan-sekrup-KPS-Steel-distributor-besi-jakarta-1024x536.jpg" alt=""></div>
+        <div class="logo"><img src="{{ asset('images/Baut.png') }}" alt=""></div>
         <div class="login">
             <a href="#">Login</a>
             <a href="#">Register</a>
@@ -16,7 +16,9 @@
     </div>
 </div>
 <body>
-    <div id="bannerimage"></div>
+    <div class="bannerimage">
+        <img src="{{ asset('images/Baut2.jpg') }}" alt="">
+    </div>
     <h1 style="text-align: center">Kami menyediakan:</h1>
     <div class="packets">
         <div class="packet">
@@ -33,7 +35,7 @@
         </div>
     </div>
     <div class="button">
-        <button>Pesan Sekarang</button>
+        <a href="{{ url('/booking') }}">Pesan Sekarang</a>
     </div>
 </body>
 </html>

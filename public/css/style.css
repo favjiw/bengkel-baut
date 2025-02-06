@@ -1,6 +1,5 @@
-#bannerimage{
+.bannerimage img{
   width: 100%;
-  background-image: url(../images/bengkel.jpg);
   height: 500px;
   background-color: gray;
   background-position: center;
@@ -53,7 +52,7 @@ body{
 }
 
 .login a:hover{
-  background-color: #41060c;
+  background-color: #0000002f;
   color: white;
   border-radius: 5px;
 }
@@ -92,8 +91,9 @@ body{
   align-items: center;
 }
 
-.button button{
+.button a{
   padding: 10px 20px;
+  text-decoration: none;
   border: none;
   background-color: #3776A1;
   color: white;
