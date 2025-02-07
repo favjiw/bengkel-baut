@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('landingpage');
-});
+Route::get('/', [CategoryController::class, 'index'])->name('landingpage');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

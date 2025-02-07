@@ -21,18 +21,14 @@
     </div>
     <h1 style="text-align: center">Kami menyediakan:</h1>
     <div class="packets">
-        <div class="packet">
-            <img src="https://kpssteel.com/storage/2022/10/perbedaan-baut-dan-sekrup-KPS-Steel-distributor-besi-jakarta-1024x536.jpg" alt="">
-            Bongkar
-        </div>
-        <div class="packet">
-            <img src="https://kpssteel.com/storage/2022/10/perbedaan-baut-dan-sekrup-KPS-Steel-distributor-besi-jakarta-1024x536.jpg" alt="">
-            Pasang
-        </div>
-        <div class="packet">
-            <img src="https://kpssteel.com/storage/2022/10/perbedaan-baut-dan-sekrup-KPS-Steel-distributor-besi-jakarta-1024x536.jpg" alt="">
-            Bongkar dan Pasang
-        </div>
+        @foreach ($categories as $category)
+            <div class="packet">
+                <img src="https://kpssteel.com/storage/2022/10/perbedaan-baut-dan-sekrup-KPS-Steel-distributor-besi-jakarta-1024x536.jpg" alt="">
+                <h3>{{ $category->name }}</h3>
+                <p>{{ $category->description }}</p>
+                <p><b>Rp.{{ number_format($category->price, 0, ',', '.') }}</b></p>
+            </div>
+        @endforeach
     </div>
     <div class="button">
         <a href="{{ url('/booking') }}">Pesan Sekarang</a>
