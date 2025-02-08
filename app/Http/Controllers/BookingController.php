@@ -35,9 +35,11 @@ class BookingController extends Controller
         // dd($request->all());
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email',
+            'phone' => 'required|string|max:15',
             'type' => 'required|string',
             'category_id' => 'required|exists:categories,id',
+            'timestart' => 'nullable|time',
+            'timeend' => 'nullable|time',
         ]);
 
         $validatedData = Booking::create($validatedData);

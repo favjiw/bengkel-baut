@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\WhatsappController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', [CategoryController::class, 'index'])->name('landingpage');
 
@@ -20,5 +21,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/calculate', [DashboardController::class, 'calculate'])->name('calculate');
 });
+
+Route::get('/dashboard/send', [WhatsappController::class, 'send'])->name('send.whatsapp');
 
 require __DIR__.'/auth.php';

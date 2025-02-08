@@ -36,9 +36,11 @@
                 <tr>
                     <th>No</th>
                     <th>Name</th>
-                    <th>Email</th>
+                    <th>Phone</th>
                     <th>Type Motor</th>
                     <th>Category</th>
+                    <th>Time Start</th>
+                    <th>Time End</th>
                     <th>Hour</th>
                     <th>Date</th>
                 </tr>
@@ -46,11 +48,13 @@
             <tbody>
                 @forelse ($bookings as $booking)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $booking->id }}</td>
                         <td>{{ $booking->name }}</td>
-                        <td>{{ $booking->email }}</td>
+                        <td>{{ $booking->phone }}</td>
                         <td>{{ $booking->type }}</td>
                         <td>{{ $booking->category_name }}</td>
+                        <td>{{ $booking->timestart }}</td>
+                        <td>{{ $booking->timeend }}</td>
                         <td>{{ $booking->hour }} Jam</td>
                         <td>{{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}</td>
                     </tr>
@@ -61,7 +65,7 @@
         </table>
         <div class="button">
             <a href="{{ url('/calculate') }}">Kalkulasi</a>
-            <a href="{{ url('/notification') }}">Kirim Notifikasi</a>
+            <a href="{{ url('/dashboard/send') }}">Kirim Notifikasi</a>
         </div>
         <button id="calculate-btn">Hitung Kalkulasi</button>
         <p id="calculation-result"></p>

@@ -16,9 +16,11 @@ class DashboardController extends Controller
             ->select(
                 'bookings.id',
                 'bookings.name',
-                'bookings.email',
+                'bookings.phone',
                 'bookings.type',
                 'categories.name as category_name',
+                'bookings.timestart',
+                'bookings.timeend',
                 'categories.hour',
                 'bookings.created_at as date'
             )
@@ -31,7 +33,7 @@ class DashboardController extends Controller
         // Ambil semua bookings dengan join ke categories untuk mendapatkan durasi layanan (hour)
         $bookings = DB::table('bookings')
             ->join('categories', 'bookings.category_id', '=', 'categories.id')
-            ->select('bookings.id', 'bookings.name', 'bookings.email', 'bookings.type', 'categories.name as category', 'categories.hour')
+            ->select('bookings.id', 'bookings.name', 'bookings.phone', 'bookings.type', 'categories.name as category', 'categories.hour')
             ->orderBy('categories.hour', 'asc') // Sorting berdasarkan durasi layanan (Greedy SJF)
             ->get();
     
