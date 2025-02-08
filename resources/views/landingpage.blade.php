@@ -10,7 +10,7 @@
     <div class="items">
         <div class="logo"><img src="{{ asset('images/Baut.png') }}" alt=""></div>
         <div class="login">
-            <a href="#">Login</a>
+            <a href="{{ url('/login') }}">Login</a>
             <a href="#">Register</a>
         </div>
     </div>

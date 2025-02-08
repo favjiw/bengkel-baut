@@ -9,7 +9,7 @@ body{
     align-content: center;
     width: 100%;
     height: 300px;
-    background-color: #3776A1;
+    background-color: #282f6c;
 }
 
 .header h1{
@@ -52,7 +52,7 @@ form button{
     font-size: 20px;
     height: 40px;
     margin: 50px;
-    background-color: #3776A1;
+    background-color: #ac124a;
     border-radius: 5px;
     color: white;
     border: none;

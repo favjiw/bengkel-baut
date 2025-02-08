@@ -1,4 +1,4 @@
-.body{
+body{
     margin: 0;
     padding: 0;
     font-family: "Manrope", serif;
@@ -8,7 +8,7 @@
     left: 0;
     right: 0;
     height: auto;
-    background-color: #3776A1;
+    background-color: #282f6c;
     top: 0;
     position: fixed;  
   
@@ -18,12 +18,63 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    margin: 0 8%;
+}
+
+.items h3{
+    color: white;
+}
+
+.logout .dropbtn {
+    color: white;
+    text-decoration: none;
+    display: block;
+    border-radius: 5px;
+}
+
+.logout {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 120px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.logout:hover .dropdown {
+    display: block;
+}
+
+.dropdown a {
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {
+    background-color: #f1f1f1;
 }
 
 .content{
+    margin: 0 20%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
 .date-button {
@@ -37,7 +88,7 @@
 
 .date-button input {
     padding: 8px;
-    border: 2px solid #3776A1;
+    border: 2px solid #282f6c;
     border-radius: 8px;
     font-size: 16px;
     color: #333;
@@ -47,12 +98,12 @@
 
 .date-button input:hover,
 .date-button input:focus {
-    border-color: #2a5d7d;
+    border-color: #282f6c;
     background-color: #f8f9fa;
 }
 
 .date-button button {
-    background-color: #3776A1;
+    background-color: #282f6c;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -63,7 +114,7 @@
 }
 
 .date-button button:hover {
-    background-color: #2a5d7d;
+    background-color: #282f6c;
 }
 
 
@@ -82,13 +133,12 @@ th {
     background-color: #f2f2f2; 
 }
 
-
 .button button{
     width: 200px;
     font-size: 20px;
     height: 40px;
-    margin: 50px;
-    background-color: #3776A1;
+    margin: 50px 20px 50px 0;
+    background-color: #282f6c;
     border-radius: 5px;
     color: white;
     border: none;
