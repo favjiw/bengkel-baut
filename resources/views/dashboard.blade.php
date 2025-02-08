@@ -34,30 +34,76 @@
         <table>
             <thead>
                 <tr>
+                    <th>No</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Type Motor</th>
                     <th>Category</th>
+                    <th>Hour</th>
+                    <th>Date</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($bookings as $booking)
                     <tr>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $booking->name }}</td>
                         <td>{{ $booking->email }}</td>
                         <td>{{ $booking->type }}</td>
-                        <td>{{ $booking->category->name }}</td>
+                        <td>{{ $booking->category_name }}</td>
+                        <td>{{ $booking->hour }} Jam</td>
+                        <td>{{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}</td>
                     </tr>
                     @empty
                     <p>Belum ada pelanggan</p>
                 @endforelse
             </tbody>
         </table>
-
         <div class="button">
-            <button>Kalkulasi</button>
-            <button>Kirim Notifikasi</button>
+            <a href="{{ url('/calculate') }}">Kalkulasi</a>
+            <a href="{{ url('/notification') }}">Kirim Notifikasi</a>
         </div>
+        <button id="calculate-btn">Hitung Kalkulasi</button>
+        <p id="calculation-result"></p>
     </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("calculate-btn").addEventListener("click", function () {
+            let rows = document.querySelectorAll("tbody tr");
+            let bookings = [];
+
+            // Ambil data bookings dari tabel
+            rows.forEach(row => {
+                let cols = row.querySelectorAll("td");
+                if (cols.length > 0) {
+                    let booking = {
+                        name: cols[1].innerText.trim(),
+                        hour: parseInt(cols[5].innerText.trim()), // Ambil durasi layanan (Jam)
+                    };
+                    bookings.push(booking);
+                }
+            });
+
+            // Urutkan berdasarkan durasi pelayanan (Greedy SJF)
+            bookings.sort((a, b) => a.hour - b.hour);
+
+            let totalTime = 0;
+            let cumulativeTime = 0;
+            let resultHTML = "<strong>Urutan Pelayanan:</strong><br>";
+
+            bookings.forEach((booking, index) => {
+                cumulativeTime += booking.hour;
+                totalTime += cumulativeTime;
+                resultHTML += `${index + 1}. ${booking.name} - ${booking.hour} Jam (Kumulatif: ${cumulativeTime} Jam)<br>`;
+            });
+
+            resultHTML += `<br><strong>Total Waktu Pelayanan: ${totalTime} Jam</strong>`;
+
+            // Tampilkan hasil kalkulasi
+            document.getElementById("calculation-result").innerHTML = resultHTML;
+        });
+    });
+</script>        
 </body>
 </html>
