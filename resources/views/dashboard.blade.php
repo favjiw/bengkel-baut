@@ -121,7 +121,7 @@
                 let cols = row.querySelectorAll("td");
                 if (cols.length > 0 && cols[5].innerText !== "Belum ada pelanggan") {
                     let booking = {
-                        name: cols[1].innerText.,
+                        name: cols[1].innerText,
                         duration: parseInt(cols[5].innerText)
                     };
                     bookingsSorted.push(booking);

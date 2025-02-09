@@ -60,5 +60,25 @@ class BookingSeeder extends Seeder
             'timeend' => null,
             'booking_date' => '2025-02-10',
         ]);
+
+        Booking::create([
+            'name' => 'Julius',
+            'phone' => '087827118371',
+            'type' => 'Beat',
+            'category_id' => 1,
+            'timestart' => null,
+            'timeend' => null,
+            'booking_date' => '2025-02-11',
+        ]);
+
+        Booking::create([
+            'name' => 'Bourbon',
+            'phone' => '081219031704',
+            'type' => 'Vario',
+            'category_id' => 3,
+            'timestart' => null,
+            'timeend' => null,
+            'booking_date' => '2025-02-12',
+        ]);
     }
 }
