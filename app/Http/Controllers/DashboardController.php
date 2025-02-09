@@ -21,7 +21,7 @@ class DashboardController extends Controller
                 'categories.name as category_name',
                 'bookings.timestart',
                 'bookings.timeend',
-                'categories.hour',
+                'categories.minute',
                 'bookings.booking_date'
             )
             ->whereDate('bookings.booking_date', Carbon::today())
@@ -46,7 +46,7 @@ class DashboardController extends Controller
                 'categories.name as category_name',
                 'bookings.timestart',
                 'bookings.timeend',
-                'categories.hour',
+                'categories.minute',
                 'bookings.booking_date'
             )
             ->whereDate('bookings.booking_date', $bookingDate) // Filter berdasarkan booking_date
@@ -66,7 +66,7 @@ class DashboardController extends Controller
                 'bookings.phone',
                 'bookings.type',
                 'categories.name as category_name',
-                'categories.hour', // Durasi pengerjaan
+                'categories.minute', // Durasi pengerjaan dalam menit
                 'bookings.created_at as date'
             )
             ->whereDate('bookings.created_at', Carbon::today())
@@ -82,12 +82,12 @@ class DashboardController extends Controller
     
         while (count($processed) < count($bookings)) {
             $minIndex = -1;
-            $minHour = PHP_INT_MAX;
+            $minMinute = PHP_INT_MAX;
     
             // Cari booking dengan durasi tersingkat yang belum diproses
             foreach ($bookings as $index => $booking) {
-                if (!in_array($booking->id, $visited) && $booking->hour < $minHour) {
-                    $minHour = $booking->hour;
+                if (!in_array($booking->id, $visited) && $booking->minute < $minMinute) {
+                    $minMinute = $booking->minute;
                     $minIndex = $index;
                 }
             }
@@ -99,7 +99,7 @@ class DashboardController extends Controller
             $selected = $bookings[$minIndex];
     
             // Hitung waktu selesai pengerjaan
-            $endTime = (clone $currentTime)->addHours($selected->hour);
+            $endTime = (clone $currentTime)->addMinutes($selected->minute);
     
             // Simpan urutan & update database
             $processed[] = [
@@ -127,7 +127,7 @@ class DashboardController extends Controller
             'message' => 'Booking berhasil diperbarui',
             'schedule' => $processed
         ]);
-    }
+    }    
 
     public function create()
     {

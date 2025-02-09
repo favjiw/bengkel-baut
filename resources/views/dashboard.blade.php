@@ -14,14 +14,14 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Name</th>
+                <th>Nama</th>
                 <th>Phone</th>
-                <th>Type Motor</th>
-                <th>Category</th>
-                <th>Hour</th>
-                <th>Time Start</th>
-                <th>Time End</th>
-                <th>Date</th>
+                <th>Tipe Motor</th>
+                <th>Kategori</th>
+                <th>Lama Pengerjaan (Menit)</th>
+                <th>Waktu Mulai</th>
+                <th>Waktu Selesai</th>
+                <th>Tanggal</th>
             </tr>
         </thead>
         <tbody>
@@ -32,7 +32,7 @@
                     <td>{{ $booking->phone }}</td>
                     <td>{{ $booking->type }}</td>
                     <td>{{ $booking->category_name }}</td>
-                    <td>{{ $booking->hour }} Jam</td>
+                    <td>{{ $booking->minute }}</td>
                     <td>{{ $booking->timestart }}</td>
                     <td>{{ $booking->timeend }}</td>
                     <td>{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}</td>
