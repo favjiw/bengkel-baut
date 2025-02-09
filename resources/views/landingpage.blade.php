@@ -25,6 +25,7 @@
                 <img src="https://kpssteel.com/storage/2022/10/perbedaan-baut-dan-sekrup-KPS-Steel-distributor-besi-jakarta-1024x536.jpg" alt="">
                 <h3>{{ $category->name }}</h3>
                 <p>{{ $category->description }}</p>
+                <p>Estimasi Penegerjaan : {{ $category->minute }} Menit</p>
                 <p><b>Rp.{{ number_format($category->price, 0, ',', '.') }}</b></p>
             </div>
         @endforeach

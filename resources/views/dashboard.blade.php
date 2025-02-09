@@ -83,7 +83,7 @@
 
     <div class="button">
         <a href="{{ url('/calculate') }}">Atur Jadwal</a>
-        <a href="{{ url('/dashboard/send') }}">Kirim Notifikasi</a>
+        <a href="{{ url('/dashboard/send?booking_date=' . request('booking_date', now()->toDateString())) }}">Kirim Notifikasi</a>
     </div>
 
     <button id="calculate-btn">Hitung Waktu Pelayanan</button>

@@ -2,17 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Booking;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 
 class WhatsAppController extends Controller
 {
-    public function send()
+    public function send(Request $request)
     {
         $apiKey = env('FONNTE_API_KEY');
 
-        $bookings = Booking::with('category')->get();
+        $bookingDate = $request->input('booking_date', Carbon::today()->toDateString());
+
+        $bookings = Booking::with('category')
+            ->whereDate('booking_date', $bookingDate)
+            ->get();
+
+        // dd($bookings);      
 
         foreach ($bookings as $booking) {
             $message = "Halo {$booking->name},\n\n"
