@@ -18,6 +18,7 @@ class BookingSeeder extends Seeder
             'category_id' => 1,
             'timestart' => null,
             'timeend' => null,
+            'booking_date' => '2025-02-10',
         ]);
 
         Booking::create([
@@ -27,6 +28,7 @@ class BookingSeeder extends Seeder
             'category_id' => 2,
             'timestart' => null,
             'timeend' => null,
+            'booking_date' => '2025-02-10',
         ]);
 
         Booking::create([
@@ -36,6 +38,7 @@ class BookingSeeder extends Seeder
             'category_id' => 3,
             'timestart' => null,
             'timeend' => null,
+            'booking_date' => '2025-02-10',
         ]);
 
         Booking::create([
@@ -45,6 +48,7 @@ class BookingSeeder extends Seeder
             'category_id' => 1,
             'timestart' => null,
             'timeend' => null,
+            'booking_date' => '2025-02-10',
         ]);
 
         Booking::create([
@@ -54,6 +58,7 @@ class BookingSeeder extends Seeder
             'category_id' => 2,
             'timestart' => null,
             'timeend' => null,
+            'booking_date' => '2025-02-10',
         ]);
     }
 }

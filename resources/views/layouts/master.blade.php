@@ -18,7 +18,6 @@
             <div class="logout">
                 <p class="dropbtn">Admin</p>
                 <div class="dropdown">
-                    <a href="#">Profile</a>
                     <a href="#" style="color: red" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
                 </div>

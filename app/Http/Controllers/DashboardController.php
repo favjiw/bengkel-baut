@@ -27,8 +27,25 @@ class DashboardController extends Controller
             ->whereDate('bookings.booking_date', Carbon::today())
             ->orderByRaw("CASE WHEN bookings.timestart IS NULL THEN bookings.created_at ELSE bookings.timestart END ASC")
             ->get();
+
+        $bookings_unsorted = DB::table('bookings')
+            ->join('categories', 'bookings.category_id', '=', 'categories.id')
+            ->select(
+                'bookings.id',
+                'bookings.name',
+                'bookings.phone',
+                'bookings.type',
+                'categories.name as category_name',
+                'bookings.timestart',
+                'bookings.timeend',
+                'categories.minute',
+                'bookings.booking_date'
+            )
+            ->whereDate('bookings.booking_date', Carbon::today())
+            ->orderBy('bookings.created_at', 'ASC')
+            ->get();
         $bookingDate = Carbon::today()->toDateString();
-        return view('dashboard', ['bookings' => $bookings, 'bookingDate' => $bookingDate]);
+        return view('dashboard', ['bookings' => $bookings, 'bookingDate' => $bookingDate, 'bookings_unsorted' => $bookings_unsorted]);
     }
 
     public function search(Request $request){
@@ -52,8 +69,25 @@ class DashboardController extends Controller
             ->whereDate('bookings.booking_date', $bookingDate) // Filter berdasarkan booking_date
             ->orderByRaw("CASE WHEN bookings.timestart IS NULL THEN bookings.created_at ELSE bookings.timestart END ASC")
             ->get();
+        
+        $bookings_unsorted = DB::table('bookings')
+        ->join('categories', 'bookings.category_id', '=', 'categories.id')
+        ->select(
+            'bookings.id',
+            'bookings.name',
+            'bookings.phone',
+            'bookings.type',
+            'categories.name as category_name',
+            'bookings.timestart',
+            'bookings.timeend',
+            'categories.minute',
+            'bookings.booking_date'
+        )
+        ->whereDate('bookings.booking_date', $bookingDate)
+        ->orderBy('bookings.created_at', 'ASC')
+        ->get();
 
-        return view('dashboard', compact('bookings', 'bookingDate'));
+        return view('dashboard', compact('bookings', 'bookingDate', 'bookings_unsorted'));
     }
 
     public function calculate() {
@@ -123,10 +157,7 @@ class DashboardController extends Controller
             $currentTime = $endTime;
         }
     
-        return response()->json([
-            'message' => 'Booking berhasil diperbarui',
-            'schedule' => $processed
-        ]);
+        return back()->with('success', 'Booking telah diurutkan berdasarkan durasi pengerjaan.');
     }    
 
     public function create()
