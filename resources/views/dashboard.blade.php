@@ -50,7 +50,7 @@
             <tbody>
                 @forelse ($bookings as $booking)
                     <tr>
-                        <td>{{ $booking->id }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $booking->name }}</td>
                         <td>{{ $booking->phone }}</td>
                         <td>{{ $booking->type }}</td>

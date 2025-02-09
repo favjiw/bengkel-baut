@@ -24,38 +24,85 @@ class DashboardController extends Controller
                 'categories.hour',
                 'bookings.created_at as date'
             )
+            ->whereDate('bookings.created_at', Carbon::today())
+            ->orderByRaw("CASE WHEN bookings.timestart IS NULL THEN bookings.created_at ELSE bookings.timestart END ASC")
             ->get();
-    
+
         return view('dashboard', ['bookings' => $bookings]);
     }
 
+
     public function calculate() {
-        // Ambil semua bookings dengan join ke categories untuk mendapatkan durasi layanan (hour)
+        // Ambil data booking hari ini
         $bookings = DB::table('bookings')
             ->join('categories', 'bookings.category_id', '=', 'categories.id')
-            ->select('bookings.id', 'bookings.name', 'bookings.phone', 'bookings.type', 'categories.name as category', 'categories.hour')
-            ->orderBy('categories.hour', 'asc') // Sorting berdasarkan durasi layanan (Greedy SJF)
+            ->select(
+                'bookings.id',
+                'bookings.name',
+                'bookings.phone',
+                'bookings.type',
+                'categories.name as category_name',
+                'categories.hour', // Durasi pengerjaan
+                'bookings.created_at as date'
+            )
+            ->whereDate('bookings.created_at', Carbon::today())
             ->get();
     
-        $startTime = Carbon::now(); // Waktu awal pengerjaan (misal: saat ini)
-        $currentTime = clone $startTime;
-        
-        foreach ($bookings as $booking) {
-            $endTime = $currentTime->copy()->addHours($booking->hour); // Hitung waktu selesai
-    
-            // Update tabel bookings dengan waktu mulai dan selesai
-            DB::table('bookings')
-                ->where('id', $booking->id)
-                ->update([
-                    'start_time' => $currentTime->toDateTimeString(),
-                    'end_time' => $endTime->toDateTimeString(),
-                    'updated_at' => now(),
-                ]);
-    
-            $currentTime = clone $endTime; // Waktu mulai booking berikutnya
+        if ($bookings->isEmpty()) {
+            return response()->json(['message' => 'Tidak ada booking hari ini'], 404);
         }
     
-        return view('dashboard', ['bookings' => $bookings]);
+        $processed = []; // Untuk menyimpan urutan booking
+        $visited = []; // Menandai booking yang sudah diproses
+        $currentTime = Carbon::createFromTime(7, 0, 0); // Waktu mulai kerja: 07:00
+    
+        while (count($processed) < count($bookings)) {
+            $minIndex = -1;
+            $minHour = PHP_INT_MAX;
+    
+            // Cari booking dengan durasi tersingkat yang belum diproses
+            foreach ($bookings as $index => $booking) {
+                if (!in_array($booking->id, $visited) && $booking->hour < $minHour) {
+                    $minHour = $booking->hour;
+                    $minIndex = $index;
+                }
+            }
+    
+            // Jika tidak ada yang bisa diproses, keluar dari loop
+            if ($minIndex == -1) break;
+    
+            // Ambil booking dengan waktu pelayanan tersingkat
+            $selected = $bookings[$minIndex];
+    
+            // Hitung waktu selesai pengerjaan
+            $endTime = (clone $currentTime)->addHours($selected->hour);
+    
+            // Simpan urutan & update database
+            $processed[] = [
+                'id' => $selected->id,
+                'name' => $selected->name,
+                'timestart' => $currentTime->format('H:i'),
+                'timeend' => $endTime->format('H:i')
+            ];
+    
+            DB::table('bookings')
+                ->where('id', $selected->id)
+                ->update([
+                    'timestart' => $currentTime->format('H:i:s'),
+                    'timeend' => $endTime->format('H:i:s')
+                ]);
+    
+            // Tambahkan booking ke daftar yang telah diproses
+            $visited[] = $selected->id;
+    
+            // Perbarui waktu mulai untuk booking berikutnya
+            $currentTime = $endTime;
+        }
+    
+        return response()->json([
+            'message' => 'Booking berhasil diperbarui',
+            'schedule' => $processed
+        ]);
     }
 
     public function create()
