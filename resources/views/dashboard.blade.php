@@ -40,9 +40,10 @@
                     <th>Phone</th>
                     <th>Type Motor</th>
                     <th>Category</th>
+                    <th>Hour</th>
                     <th>Time Start</th>
                     <th>Time End</th>
-                    <th>Hour</th>
+                    
                     <th>Date</th>
                 </tr>
             </thead>
@@ -54,9 +55,10 @@
                         <td>{{ $booking->phone }}</td>
                         <td>{{ $booking->type }}</td>
                         <td>{{ $booking->category_name }}</td>
+                        <td>{{ $booking->hour }} Jam</td>
                         <td>{{ $booking->timestart }}</td>
                         <td>{{ $booking->timeend }}</td>
-                        <td>{{ $booking->hour }} Jam</td>
+                        
                         <td>{{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}</td>
                     </tr>
                     @empty
