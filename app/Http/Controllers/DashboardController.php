@@ -91,7 +91,7 @@ class DashboardController extends Controller
     }
 
     public function calculate() {
-        // Ambil data booking hari ini
+        // Favian - Query data booking hari ini
         $bookings = DB::table('bookings')
             ->join('categories', 'bookings.category_id', '=', 'categories.id')
             ->select(
@@ -106,10 +106,13 @@ class DashboardController extends Controller
             ->whereDate('bookings.created_at', Carbon::today())
             ->get();
     
+        // Periksa kalau tidak ada booking hari ini
         if ($bookings->isEmpty()) {
             return response()->json(['message' => 'Tidak ada booking hari ini'], 404);
         }
-    
+
+        // Jika ada lanjut ke sini
+        // Proses pengurutan booking 
         $processed = []; // Untuk menyimpan urutan booking
         $visited = []; // Menandai booking yang sudah diproses
         $currentTime = Carbon::createFromTime(7, 0, 0); // Waktu mulai kerja: 07:00
