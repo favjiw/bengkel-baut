@@ -12,6 +12,24 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle" />
 </head>
 <body>
+    <div class="topnav">
+        <div class="items">
+            <h3>Dashboard</h3>
+            <div class="logout">
+                <p class="dropbtn">Admin</p>
+                <div class="dropdown">
+                    <a href="#">Profile</a>
+                    <a href="#" style="color: red" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
+                </div>
+            </div>
+        </div>
+    </div>
     
+    <div class="content">
+        @yield('content')
+    </div>
+
+@yield('scripts')
 </body>
 </html>

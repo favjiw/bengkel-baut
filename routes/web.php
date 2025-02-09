@@ -24,8 +24,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/calculate', [DashboardController::class, 'calculate'])->name('calculate');
+    Route::get('/dashboard/search', [DashboardController::class, 'search'])->name('dashboard.search');
 });
 
 Route::get('/dashboard/send', [WhatsappController::class, 'send'])->name('send.whatsapp');
+
 
 require __DIR__.'/auth.php';
