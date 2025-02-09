@@ -97,37 +97,38 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("calculate-btn").addEventListener("click", function () {
+            // Ambil data dari tabel booking tanpa greedy dan dengan greedy
             let rowsUnsorted = document.querySelectorAll("#bookings_unsorted tbody tr");
             let rowsSorted = document.querySelectorAll("#bookings tbody tr");
 
             let bookingsUnsorted = [];
             let bookingsSorted = [];
 
-            // Ambil data bookings_unsorted dari tabel sebelum greedy
+            // Menyimpan Data Booking ke Array bookingsUnsorted
             rowsUnsorted.forEach(row => {
                 let cols = row.querySelectorAll("td");
-                if (cols.length > 0 && cols[5].innerText.trim() !== "Belum ada pelanggan") {
+                if (cols.length > 0 && cols[5].innerText !== "Belum ada pelanggan") {
                     let booking = {
-                        name: cols[1].innerText.trim(),
-                        duration: parseInt(cols[5].innerText.trim()) // Ambil lama pengerjaan (menit)
+                        name: cols[1].innerText,
+                        duration: parseInt(cols[5].innerText)
                     };
                     bookingsUnsorted.push(booking);
                 }
             });
 
-            // Ambil data bookings dari tabel setelah greedy
+            // Menyimpan Data Booking ke Array bookingsSorted
             rowsSorted.forEach(row => {
                 let cols = row.querySelectorAll("td");
-                if (cols.length > 0 && cols[5].innerText.trim() !== "Belum ada pelanggan") {
+                if (cols.length > 0 && cols[5].innerText !== "Belum ada pelanggan") {
                     let booking = {
-                        name: cols[1].innerText.trim(),
-                        duration: parseInt(cols[5].innerText.trim()) // Ambil lama pengerjaan (menit)
+                        name: cols[1].innerText.,
+                        duration: parseInt(cols[5].innerText)
                     };
                     bookingsSorted.push(booking);
                 }
             });
 
-            // Hitung waktu kumulatif untuk bookings_unsorted (tanpa greedy)
+            // Hitung waktu kumulatif untuk bookingsUnsorted (tanpa greedy)
             let totalTimeUnsorted = 0;
             let cumulativeTimeUnsorted = 0;
             let unsortedText = "<strong>Urutan Pelayanan Tanpa Greedy:</strong><br>";
@@ -140,7 +141,7 @@
 
             unsortedText += `<br><strong>Total Waktu Pelayanan: ${totalTimeUnsorted} Menit</strong>`;
 
-            // Hitung waktu kumulatif untuk bookings (setelah greedy)
+            // Hitung waktu kumulatif untuk bookingsSorted (setelah greedy)
             let totalTimeSorted = 0;
             let cumulativeTimeSorted = 0;
             let sortedText = "<strong>Urutan Pelayanan Dengan Greedy:</strong><br>";
@@ -153,7 +154,7 @@
 
             sortedText += `<br><strong>Total Waktu Pelayanan: ${totalTimeSorted} Menit</strong>`;
 
-            // Tampilkan hasil di elemen <p> yang sesuai
+            // Tampilkan hasil pada <p> id unsorted dan sorted
             document.getElementById("unsorted").innerHTML = unsortedText;
             document.getElementById("sorted").innerHTML = sortedText;
         });
