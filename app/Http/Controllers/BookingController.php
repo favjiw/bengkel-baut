@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Category;
 use Illuminate\Container\Attributes\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -31,20 +32,35 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        // Log::info($request);
-        // dd($request->all());
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'type' => 'required|string',
             'category_id' => 'required|exists:categories,id',
-            'timestart' => 'nullable|time',
-            'timeend' => 'nullable|time',
+            'timestart' => 'nullable|date_format:H:i',
+            'timeend' => 'nullable|date_format:H:i',
             'booking_date' => 'required|date',
         ]);
-
-        $validatedData = Booking::create($validatedData);
-
+    
+        // Ambil total durasi booking di tanggal yang dipilih
+        $totalMinutesBooked = DB::table('bookings')
+            ->join('categories', 'bookings.category_id', '=', 'categories.id')
+            ->whereDate('bookings.booking_date', $request->booking_date)
+            ->sum('categories.minute'); // Total durasi dalam menit
+    
+        // Ambil durasi kategori yang dipilih
+        $categoryMinutes = DB::table('categories')
+            ->where('id', $request->category_id)
+            ->value('minute'); // Ambil durasi kategori yang dipilih
+    
+        // Periksa apakah total durasi setelah booking ini melebihi 600 menit
+        if (($totalMinutesBooked + $categoryMinutes) > 600) {
+            return redirect()->back()->withErrors(['booking_date' => 'Total booking di tanggal ini sudah mencapai batas 10 jam (600 menit).'])->withInput();
+        }
+    
+        // Simpan booking jika masih dalam batas waktu
+        Booking::create($validatedData);
+    
         return redirect()->route('booking')->with('success', 'Booking created successfully.');
     }
 

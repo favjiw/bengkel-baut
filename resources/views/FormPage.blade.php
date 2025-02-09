@@ -15,25 +15,59 @@
         <h1>Booking Form</h1>
     </div>
     <div class="form">
+        <!-- Menampilkan pesan error -->
+        @if ($errors->any())
+            <div class="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form action="{{ route('booking.store') }}" method="POST">
             @csrf
             <label for="name">Name</label>
-            <input type="text" name="name" id="name">
+            <input type="text" name="name" id="name" value="{{ old('name') }}">
+            @error('name')
+                <p class="error">{{ $message }}</p>
+            @enderror
+
             <label for="phone">Phone</label>
-            <input type="phone" name="phone" id="phone">
+            <input type="phone" name="phone" id="phone" value="{{ old('phone') }}">
+            @error('phone')
+                <p class="error">{{ $message }}</p>
+            @enderror
+
             <label for="type">Type Motor</label>
-            <input type="text" name="type" id="type">
+            <input type="text" name="type" id="type" value="{{ old('type') }}">
+            @error('type')
+                <p class="error">{{ $message }}</p>
+            @enderror
+
             <label for="category_id">Pilih Paket:</label>
             <select name="category_id" id="category_id">
                 @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
                 @endforeach
             </select>
+            @error('category_id')
+                <p class="error">{{ $message }}</p>
+            @enderror
+
             <label for="date">Date</label>
-            <input type="date" name="booking_date" id="date">
+            <input type="date" name="booking_date" id="date" value="{{ old('booking_date') }}">
+            @error('booking_date')
+                <p class="error">{{ $message }}</p>
+            @enderror
+
             <button type="submit">Submit</button>
         </form>
     </div>
+
     <script>
         // Ambil tanggal hari ini
         let today = new Date();
