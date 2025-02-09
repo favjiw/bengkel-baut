@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->time('timestart')->nullable();
             $table->time('timeend')->nullable();
+            $table->date('booking_date');
             $table->timestamps();
         });
     }

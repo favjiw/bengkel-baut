@@ -40,6 +40,7 @@ class BookingController extends Controller
             'category_id' => 'required|exists:categories,id',
             'timestart' => 'nullable|time',
             'timeend' => 'nullable|time',
+            'booking_date' => 'required|date',
         ]);
 
         $validatedData = Booking::create($validatedData);

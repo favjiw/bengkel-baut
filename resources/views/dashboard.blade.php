@@ -59,7 +59,7 @@
                         <td>{{ $booking->timestart }}</td>
                         <td>{{ $booking->timeend }}</td>
                         
-                        <td>{{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}</td>
                     </tr>
                     @empty
                     <p>Belum ada pelanggan</p>

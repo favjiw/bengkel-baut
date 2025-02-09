@@ -22,7 +22,7 @@ class DashboardController extends Controller
                 'bookings.timestart',
                 'bookings.timeend',
                 'categories.hour',
-                'bookings.created_at as date'
+                'bookings.booking_date'
             )
             ->whereDate('bookings.created_at', Carbon::today())
             ->orderByRaw("CASE WHEN bookings.timestart IS NULL THEN bookings.created_at ELSE bookings.timestart END ASC")

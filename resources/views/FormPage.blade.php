@@ -29,8 +29,22 @@
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
+            <label for="date">Date</label>
+            <input type="date" name="booking_date" id="date">
             <button type="submit">Submit</button>
         </form>
     </div>
+    <script>
+        // Ambil tanggal hari ini
+        let today = new Date();
+        // Tambah 1 hari agar hanya bisa pilih besok
+        today.setDate(today.getDate() + 1);
+        // Format ke YYYY-MM-DD (format yang diterima oleh input date)
+        let tomorrow = today.toISOString().split('T')[0];
+        // Set nilai min pada input
+        document.getElementById("date").setAttribute("min", tomorrow);
+        // Set nilai default input menjadi besok
+        document.getElementById("date").value = tomorrow;
+      </script>
 </body>
 </html>
