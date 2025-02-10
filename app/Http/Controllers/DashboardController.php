@@ -104,64 +104,64 @@ class DashboardController extends Controller
                 'bookings.created_at as date'
             )
             ->whereDate('bookings.created_at', Carbon::today())
-            ->get();
-    
+            ->get()
+            ->toArray(); // Ubah collection menjadi array untuk manipulasi lebih mudah
+        
         // Periksa kalau tidak ada booking hari ini
-        if ($bookings->isEmpty()) {
+        if (empty($bookings)) {
             return response()->json(['message' => 'Tidak ada booking hari ini'], 404);
         }
-
-        // Jika ada lanjut ke sini
-        // Proses pengurutan booking 
-        $processed = []; // Untuk menyimpan urutan booking
-        $visited = []; // Menandai booking yang sudah diproses
-        $currentTime = Carbon::createFromTime(7, 0, 0); // Waktu mulai kerja: 07:00
     
-        while (count($processed) < count($bookings)) {
-            $minIndex = -1;
-            $minMinute = PHP_INT_MAX;
-    
-            // Cari booking dengan durasi tersingkat yang belum diproses
-            foreach ($bookings as $index => $booking) {
-                if (!in_array($booking->id, $visited) && $booking->minute < $minMinute) {
-                    $minMinute = $booking->minute;
-                    $minIndex = $index;
+        // Urutkan booking berdasarkan durasi service terkecil (Greedy)
+        $N = count($bookings);
+        
+        for ($i = 0; $i < $N - 1; $i++) {
+            $minIndex = $i;
+            
+            for ($j = $i + 1; $j < $N; $j++) {
+                if ($bookings[$j]->minute < $bookings[$minIndex]->minute) {
+                    $minIndex = $j;
                 }
             }
     
-            // Jika tidak ada yang bisa diproses, keluar dari loop
-            if ($minIndex == -1) break;
+            // Tukar posisi booking[i] dengan booking[minIndex]
+            if ($minIndex !== $i) {
+                $temp = $bookings[$i];
+                $bookings[$i] = $bookings[$minIndex];
+                $bookings[$minIndex] = $temp;
+            }
+        }
     
-            // Ambil booking dengan waktu pelayanan tersingkat
-            $selected = $bookings[$minIndex];
+        // Proses pelayanan setelah pengurutan
+        $processed = []; // Untuk menyimpan urutan booking
+        $currentTime = Carbon::createFromTime(7, 0, 0); // Waktu mulai kerja: 07:00
     
-            // Hitung waktu selesai pengerjaan
-            $endTime = (clone $currentTime)->addMinutes($selected->minute);
+        foreach ($bookings as $booking) {
+            $endTime = (clone $currentTime)->addMinutes($booking->minute);
     
-            // Simpan urutan & update database
+            // Simpan urutan pelayanan
             $processed[] = [
-                'id' => $selected->id,
-                'name' => $selected->name,
+                'id' => $booking->id,
+                'name' => $booking->name,
                 'timestart' => $currentTime->format('H:i'),
                 'timeend' => $endTime->format('H:i')
             ];
     
+            // Update database dengan waktu mulai dan selesai
             DB::table('bookings')
-                ->where('id', $selected->id)
+                ->where('id', $booking->id)
                 ->update([
                     'timestart' => $currentTime->format('H:i:s'),
                     'timeend' => $endTime->format('H:i:s')
                 ]);
-    
-            // Tambahkan booking ke daftar yang telah diproses
-            $visited[] = $selected->id;
     
             // Perbarui waktu mulai untuk booking berikutnya
             $currentTime = $endTime;
         }
     
         return back()->with('success', 'Booking telah diurutkan berdasarkan durasi pengerjaan.');
-    }    
+    }
+      
 
     public function create()
     {
