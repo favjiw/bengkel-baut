@@ -42,11 +42,11 @@ class BookingController extends Controller
             'booking_date' => 'required|date',
         ]);
     
-        // Ambil total durasi booking di tanggal yang dipilih
+        // Hitung total durasi dari menit di tanggal itu
         $totalMinutesBooked = DB::table('bookings')
             ->join('categories', 'bookings.category_id', '=', 'categories.id')
             ->whereDate('bookings.booking_date', $request->booking_date)
-            ->sum('categories.minute'); // Total durasi dalam menit
+            ->sum('categories.minute'); 
     
         // Ambil durasi kategori yang dipilih
         $categoryMinutes = DB::table('categories')

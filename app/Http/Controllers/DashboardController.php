@@ -49,7 +49,6 @@ class DashboardController extends Controller
     }
 
     public function search(Request $request){
-        // Ambil tanggal booking dari input form, default ke hari ini jika tidak ada input
         $bookingDate = $request->input('booking_date', Carbon::today()->toDateString());
 
         // Query booking berdasarkan booking_date
@@ -69,7 +68,9 @@ class DashboardController extends Controller
             ->whereDate('bookings.booking_date', $bookingDate) // Filter berdasarkan booking_date
             ->orderByRaw("CASE WHEN bookings.timestart IS NULL THEN bookings.created_at ELSE bookings.timestart END ASC")
             ->get();
-        
+
+
+        // Kalau ini ga di sort
         $bookings_unsorted = DB::table('bookings')
         ->join('categories', 'bookings.category_id', '=', 'categories.id')
         ->select(
