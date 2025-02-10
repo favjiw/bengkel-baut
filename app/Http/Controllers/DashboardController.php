@@ -112,7 +112,7 @@ class DashboardController extends Controller
             return response()->json(['message' => 'Tidak ada booking hari ini'], 404);
         }
     
-        // Urutkan booking berdasarkan durasi service terkecil (Greedy)
+        // Proses Pengurutan Booking 
         $N = count($bookings);
         
         for ($i = 0; $i < $N - 1; $i++) {
@@ -124,7 +124,7 @@ class DashboardController extends Controller
                 }
             }
     
-            // Tukar posisi booking[i] dengan booking[minIndex]
+            // Tukar posisi 
             if ($minIndex !== $i) {
                 $temp = $bookings[$i];
                 $bookings[$i] = $bookings[$minIndex];
@@ -159,7 +159,7 @@ class DashboardController extends Controller
             $currentTime = $endTime;
         }
     
-        return back()->with('success', 'Booking telah diurutkan berdasarkan durasi pengerjaan.');
+        return back();
     }
       
 
