@@ -128,6 +128,22 @@
                 }
             });
 
+            // mengurutkan bookingSorted
+            for (let i = 0; i < bookingsSorted.length - 1; i++) {
+                let minIndex = i;
+                for (let j = i + 1; j < bookingsSorted.length; j++) {
+                    if (bookingsSorted[j].duration < bookingsSorted[minIndex].duration) {
+                        minIndex = j;
+                    }
+                }
+                // Tukar posisi jika ditemukan nilai yang lebih kecil
+                if (minIndex !== i) {
+                    let temp = bookingsSorted[i];
+                    bookingsSorted[i] = bookingsSorted[minIndex];
+                    bookingsSorted[minIndex] = temp;
+                }
+            }
+
             // Hitung waktu kumulatif untuk bookingsUnsorted (tanpa greedy)
             let totalTimeUnsorted = 0;
             let cumulativeTimeUnsorted = 0;
@@ -159,6 +175,7 @@
             document.getElementById("sorted").innerHTML = sortedText;
         });
     });
+
 
 </script>
 @endsection
