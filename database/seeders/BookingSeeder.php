@@ -12,7 +12,7 @@ class BookingSeeder extends Seeder
     public function run(): void
     {
         Booking::create([
-            'name' => 'John Doe',
+            'name' => 'Favian',
             'phone' => '082117778311',
             'type' => 'Scooter',
             'category_id' => 1,
@@ -22,7 +22,7 @@ class BookingSeeder extends Seeder
         ]);
 
         Booking::create([
-            'name' => 'Jane Smith',
+            'name' => 'Alghifari',
             'phone' => '082121256766',
             'type' => 'Sport',
             'category_id' => 2,
@@ -32,7 +32,7 @@ class BookingSeeder extends Seeder
         ]);
 
         Booking::create([
-            'name' => 'Michael Johnson',
+            'name' => 'Fawwaz',
             'phone' => '081312644241',
             'type' => 'Cruiser',
             'category_id' => 3,
@@ -42,7 +42,7 @@ class BookingSeeder extends Seeder
         ]);
 
         Booking::create([
-            'name' => 'Emily Davis',
+            'name' => 'Nafhan',
             'phone' => '081384260738',
             'type' => 'Touring',
             'category_id' => 1,
@@ -52,7 +52,7 @@ class BookingSeeder extends Seeder
         ]);
 
         Booking::create([
-            'name' => 'Daniel Brown',
+            'name' => 'Rifqy',
             'phone' => '081222074013',
             'type' => 'Dirt Bike',
             'category_id' => 2,
@@ -62,7 +62,7 @@ class BookingSeeder extends Seeder
         ]);
 
         Booking::create([
-            'name' => 'Julius',
+            'name' => 'Rehan',
             'phone' => '087827118371',
             'type' => 'Beat',
             'category_id' => 1,
